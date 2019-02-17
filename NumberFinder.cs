@@ -12,17 +12,19 @@ namespace PadawansTask6
     }
     public static class NumberFinder
     {
-        private static int NumFromDigits(List<int> numArr)
+        private static long NumFromDigits(List<int> numArr)
         {
-            int newDigit = 0;
+            long newDigit = 0;
             for (int j = 0; j < numArr.Count; j++)
-                newDigit += numArr[j] * (int)Math.Pow(10, numArr.Count - 1 - j);
+                newDigit += numArr[j] * (long)Math.Pow(10, numArr.Count - 1 - j);
 
             return newDigit;
         }
 
         public static int? NextBiggerThan(int number)
         {
+            if (number <= 0)
+                throw new ArgumentException();
             List<int> numArr = new List<int>();
 
             do
@@ -48,9 +50,10 @@ namespace PadawansTask6
                             numArr[j] = temp;
                             numArr.Sort(0, j, new Sorter());
                             numArr.Reverse();
-                            int newDigit = NumFromDigits(numArr);
-
-                            return newDigit;
+                            long newDigit = NumFromDigits(numArr);
+                            if (newDigit > int.MaxValue)
+                                return null;
+                            return (int)newDigit;
                         }
                     }
 
